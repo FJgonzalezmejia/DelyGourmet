@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión - Cafetería Random</title>
+    <link rel="stylesheet" href="Login_Admin.css">
+    <script type="module" src="Login_Admin.js"></script>
+</head>
+<body>
+    <!-- Contenedor de autenticación (solo inicio de sesión) -->
+    <div id="auth-container">
+        <h2>Iniciar sesión</h2>
+        <input type="email" id="loginEmail" placeholder="Correo electrónico">
+        <input type="password" id="loginPassword" placeholder="Contraseña">
+        <button id="btnLogin">Iniciar Sesión</button>
+    </div>
+
+    <!-- Contenedor de productos (se mostrará después de iniciar sesión) -->
+    <div id="product-container" style="display:none;">
+        <h2>Bienvenido a DelyGourmet</h2>
+        <p>Disfruta de nuestra deliciosa selección de productos.</p>
+    </div>
+</body>
+</html>

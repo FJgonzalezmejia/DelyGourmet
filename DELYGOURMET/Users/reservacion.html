@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda y Reservas</title>
+    <style>
+        /* Estilos para el modal de reserva */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 400px;
+        }
+        .close {
+            float: right;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        /* Estilos para las tarjetas de producto */
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px;
+            text-align: center;
+        }
+        .product-card img {
+            max-width: 150px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Filtro de categoría -->
+    <select id="categoryFilter">
+        <option value="all">Todas las categorías</option>
+        <option value="categoria1">Categoría 1</option>
+        <option value="categoria2">Categoría 2</option>
+        <!-- Agregar más categorías según sea necesario -->
+    </select>
+
+    <!-- Catálogo de productos -->
+    <div id="catalog"></div>
+
+    <!-- Modal de Reserva -->
+    <div id="reservationModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Reserva tu producto</h2>
+            <form id="reservationForm">
+                <input type="hidden" id="reservedProductName" name="productName">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="time">Hora de reserva:</label>
+                <input type="time" id="time" name="time" required>
+                <label for="area">Área:</label>
+                <input type="text" id="area" name="area" required>
+                <button type="submit">Reservar</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-firestore.js";
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyB7RZJ0Zs2QiuWt8lxGruB5dBjgIlSEBjI",
+            authDomain: "deliverygourmet-c367d.firebaseapp.com",
+            projectId: "deliverygourmet-c367d",
+            storageBucket: "deliverygourmet-c367d.appspot.com",
+            messagingSenderId: "1099409715996",
+            appId: "1:1099409715996:web:d33b21ae6c134ab0c840d9",
+            measurementId: "G-YSL4M6FFH4"
+        };
+
+        // Inicialización de Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Función para abrir el modal
+        function openModal(productName) {
+            const modal = document.getElementById("reservationModal");
+            const closeButton = document.getElementsByClassName("close")[0];
+            
+            // Mostrar el modal
+            modal.style.display = "block";
+
+            // Rellenar el campo oculto con el nombre del producto
+            document.getElementById("reservedProductName").value = productName;
+
+            // Cerrar el modal al hacer clic en el botón de cerrar (X)
+            closeButton.onclick = function() {
+                modal.style.display = "none";
+            };
+
+            // Cerrar el modal si se hace clic fuera de él
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            };
+        }
+
+        // Función para enviar la reserva a Firebase
+        async function submitReservation(e) {
+            e.preventDefault(); // Evitar que el formulario se envíe por defecto
+
+            const name = document.getElementById("name").value;
+            const time = document.getElementById("time").value;
+            const area = document.getElementById("area").value;
+            const productName = document.getElementById("reservedProductName").value;
+
+            try {
+                // Añadir la reserva a la colección 'reservas' en Firebase
+                await addDoc(collection(db, "reservas"), {
+                    nombreCliente: name,
+                    hora: time,
+                    area: area,
+                    producto: productName,
+                    fechaReserva: new Date().toISOString()
+                });
+
+                alert('Reserva realizada exitosamente');
+                document.getElementById("reservationModal").style.display = "none"; // Cerrar el modal
+                document.getElementById("reservationForm").reset(); // Limpiar el formulario
+            } catch (error) {
+                console.error("Error al realizar la reserva: ", error);
+                alert('Error al realizar la reserva. Intenta nuevamente.');
+            }
+        }
+
+        // Evento para enviar el formulario de reserva
+        document.getElementById('reservationForm').addEventListener('submit', submitReservation);
+
+        // Función para cargar productos desde Firebase según la categoría seleccionada
+        async function loadAndRenderProducts(category = 'all') {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'productos'));
+                const catalog = document.getElementById('catalog');
+                catalog.innerHTML = ''; // Limpiar catálogo
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const product = {
+                        id: doc.id,
+                        name: data.nombre,
+                        price: parseFloat(data.precio), // Aseguramos que el precio sea numérico
+                        description: data.descripcion || 'Descripción no disponible',
+                        image: data.imageUrl || 'https://via.placeholder.com/150', // Imagen por defecto
+                        category: data.categoria
+                    };
+
+                    // Filtrar por categoría
+                    if (category === 'all' || product.category === category) {
+                        // Crear una tarjeta de producto
+                        const productCard = document.createElement('div');
+                        productCard.className = 'product-card';
+
+                        const formattedPrice = isNaN(product.price) ? "Precio no disponible" : product.price.toFixed(2);
+
+                        productCard.innerHTML = `
+                            <img src="${product.image}" alt="${product.name}">
+                            <h3>${product.name}</h3>
+                            <p>Precio: Q${formattedPrice}</p>
+                            <p>${product.description}</p>
+                            <button class="reserveButton" data-product-name="${product.name}">
+                                Reservar
+                            </button>
+                            <button class="cartButton" data-product-name="${product.name}" data-product-price="${formattedPrice}">
+                                Comprar
+                            </button>
+                        `;
+
+                        catalog.appendChild(productCard);
+                    }
+                });
+
+                // Añadir evento a los botones de "Reservar"
+                document.querySelectorAll('.reserveButton').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const productName = this.getAttribute('data-product-name');
+                        openModal(productName);
+                    });
+                });
+
+                // Añadir evento a los botones de "Comprar"
+                document.querySelectorAll('.cartButton').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const productName = this.getAttribute('data-product-name');
+                        const productPrice = parseFloat(this.getAttribute('data-product-price'));
+                        addToCart({ name: productName, price: productPrice });
+                    });
+                });
+
+            } catch (e) {
+                console.error('Error al cargar los productos de Firebase: ', e);
+            }
+        }
+
+        // Función para agregar productos al carrito usando localStorage
+        function addToCart(product) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingProduct = cart.find(item => item.name === product.name);
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${product.name} ha sido añadido al carrito`);
+        }
+
+        // Cargar los productos de todas las categorías inicialmente
+        loadAndRenderProducts();
+
+        // Filtrar productos cuando se selecciona una categoría
+        document.getElementById('categoryFilter').addEventListener('change', function() {
+            const selectedCategory = this.value;
+            loadAndRenderProducts(selectedCategory);
+        });
+
+    </script>
+
+</body>
+</html>

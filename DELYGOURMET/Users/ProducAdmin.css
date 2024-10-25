@@ -1,0 +1,84 @@
+body {
+    background-color: #f8f9fa; /* Fondo gris claro */
+    font-family: 'Poppins', sans-serif; /* Fuente moderna */
+    transition: background-color 0.5s; /* Transición suave para el fondo */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #007bff; /* Color azul para el título */
+    animation: fadeIn 1s; /* Animación de entrada para el título */
+}
+
+table {
+    margin: auto; /* Centrar la tabla */
+    border-radius: 0.5rem; /* Bordes redondeados */
+    overflow: hidden; /* Esconder bordes al redondear */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    transition: transform 0.2s; /* Transición suave al hover */
+}
+
+table:hover {
+    transform: scale(1.02); /* Escala la tabla ligeramente al pasar el mouse */
+}
+
+thead {
+    background-color: #007bff; /* Color de fondo azul para encabezados */
+    color: white; /* Texto blanco para encabezados */
+}
+
+th {
+    transition: background-color 0.3s; /* Transición suave del color de fondo */
+}
+
+th:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+}
+
+td {
+    vertical-align: middle; /* Centrar verticalmente el contenido de las celdas */
+    transition: background-color 0.3s; /* Transición suave para celdas */
+}
+
+tbody tr:hover td {
+    background-color: #e9ecef; /* Color de fondo al pasar el mouse sobre filas */
+}
+
+img {
+    width: 100px; /* Ancho de imagen fijo */
+    height: auto; /* Altura automática */
+    border-radius: 0.5rem; /* Bordes redondeados para imágenes */
+    transition: transform 0.3s; /* Transición suave al hover */
+}
+
+img:hover {
+    transform: scale(1.1); /* Escalar imagen al pasar el mouse */
+}
+
+.btn-custom {
+    background-color: #28a745; /* Color verde para botones */
+    color: white;
+    transition: background-color 0.3s, transform 0.3s; /* Transición suave */
+}
+
+.btn-custom:hover {
+    background-color: #218838; /* Color verde más oscuro al pasar el mouse */
+    transform: translateY(-2px); /* Elevar el botón al pasar el mouse */
+}
+
+.btn-custom:active {
+    transform: translateY(0); /* Restablecer la posición al hacer clic */
+}
+
+/* Animación de entrada para el título */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

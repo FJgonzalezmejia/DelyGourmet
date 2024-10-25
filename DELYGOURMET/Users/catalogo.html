@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="catalogo.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="logo.PNG">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="Inicio_Principal.html">Inicio</a></li>
+                <li><a href="catalogo.html">Productos</a></li>
+                <li><a href="carrito.html" id="cart-button">🛒 Carrito</a></li>
+            </ul>
+        </nav>
+        <h1>Catálogo de Productos</h1>
+        <input type="text" id="searchInput" placeholder="Buscar productos...">
+        <!-- Filtro de categoría -->
+        <select id="categoryFilter">
+            <option value="all">Todas las categorías</option>
+            <option value="Refacciones">Refacciones</option>
+            <option value="Almuerzos">Almuerzos</option>
+            <option value="Postres">Postres</option>
+            <option value="Bebidas">Bebidas</option>
+            <option value="Complementos">Complementos</option>
+        </select>
+    </header>
+
+    <main>
+        <section id="catalog" class="product-catalog">
+            <!-- Las tarjetas de productos se generarán aquí dinámicamente -->
+        </section>
+    </main>
+
+    <script src="catalogo.js" type="module"></script>
+</body>
+</html>

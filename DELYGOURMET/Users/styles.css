@@ -1,0 +1,62 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+/* Contenedor principal */
+.container {
+    text-align: center;
+}
+
+/* Logo */
+.logo {
+    width: 500px; /* Tamaño inicial del logo, ajusta según sea necesario */
+    max-width: 100%; /* Asegura que no exceda el tamaño de la pantalla */
+    animation: zoomIn 2s ease-in-out; /* Animación del logo */
+}
+
+/* Animación del logo */
+@keyframes zoomIn {
+    from {
+        transform: scale(0); /* Comienza desde 0 (invisible) */
+        opacity: 0; /* Transparencia inicial */
+    }
+    to {
+        transform: scale(1); /* Termina con el tamaño normal */
+        opacity: 1; /* Logo completamente visible */
+    }
+}
+
+/* Estilos de los botones */
+.buttons button {
+    padding: 15px 30px;
+    margin: 20px;
+    font-size: 1.2rem;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transición suave en hover */
+}
+
+/* Efecto hover en los botones */
+.buttons button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.6); /* Sombra azul cuando pasas el ratón */
+    transform: scale(1.05); /* Efecto de agrandado en hover */
+}
+
+/* Soporte para imágenes 4K */
+.logo {
+    image-rendering: auto; /* Mejora el renderizado en pantallas de alta resolución */
+    height: auto;
+    width: auto;
+}

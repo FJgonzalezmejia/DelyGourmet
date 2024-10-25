@@ -1,0 +1,122 @@
+/* Estilos generales */
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f7e6d5; /* Color cálido de fondo */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Contenedor principal */
+.container {
+    text-align: center;
+    background-color: #fff6ec;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease;
+    animation: popUp 1s ease forwards;
+}
+
+@keyframes popUp {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Logo de la cafetería */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    max-width: 200px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    animation: bounceIn 1.2s ease; /* Animación para la entrada del logo */
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Texto de bienvenida */
+.welcome-text h1 {
+    font-family: 'Courgette', cursive;
+    color: #a95c34; /* Color café para dar un toque cálido */
+    font-size: 2.5rem;
+    margin: 10px 0;
+}
+
+.welcome-text p {
+    color: #7b4f34;
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* Botones */
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn {
+    background-color: #d89d6a; /* Color cálido y amigable */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #a96e4b; /* Color de hover más oscuro */
+    transform: translateY(-5px); /* Efecto de elevación al hacer hover */
+}
+
+.btn:active {
+    transform: translateY(2px); /* Botón presionado */
+}
+
+/* Media Queries (Responsive Design) */
+@media (max-width: 768px) {
+    .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    .logo {
+        max-width: 150px;
+    }
+
+    .welcome-text h1 {
+        font-size: 2rem;
+    }
+
+    .welcome-text p {
+        font-size: 1rem;
+    }
+}
